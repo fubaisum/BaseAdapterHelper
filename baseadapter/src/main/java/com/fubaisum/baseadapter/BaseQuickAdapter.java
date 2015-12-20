@@ -26,15 +26,15 @@ import java.util.List;
 /**
  * Abstraction class of a BaseAdapter in which you only need to provide the
  * convert() implementation.<br/>
- * Using the provided BaseAdapterHelper, your code is minimalist.
+ * Using the provided BaseAdapterViewHolder, your code is minimalist.
  *
  * @param <T> The type of the items in the list.
  */
-public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends BaseAdapter {
+public abstract class BaseQuickAdapter<T, H extends BaseAdapterViewHolder> extends BaseAdapter {
 
     protected final Context context;
     protected int layoutResId;
-    protected final List<T> data;
+    protected List<T> data;
 
     public BaseQuickAdapter(Context context, int layoutResId) {
         this(context, layoutResId, null);
@@ -52,6 +52,14 @@ public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends B
         this.context = context;
         this.multiViewTypeSupport = multiViewTypeSupport;
         this.data = (null == data) ? new ArrayList<T>() : new ArrayList<T>(data);
+    }
+
+    public List<T> getData() {
+        return data;
+    }
+
+    public void setData(List<T> data) {
+        this.data = data;
     }
 
     @Override
@@ -95,56 +103,6 @@ public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends B
         return helper.getConvertView();
     }
 
-    public void add(T elem) {
-        data.add(elem);
-        notifyDataSetChanged();
-    }
-
-    public void add(int location, T item) {
-        data.add(location, item);
-        notifyDataSetChanged();
-    }
-
-    public void addAll(List<T> elem) {
-        data.addAll(elem);
-        notifyDataSetChanged();
-    }
-
-    public void addAll(int location, List<T> elem) {
-        data.addAll(location, elem);
-        notifyDataSetChanged();
-    }
-
-    public void set(int index, T elem) {
-        data.set(index, elem);
-        notifyDataSetChanged();
-    }
-
-    public void remove(T elem) {
-        data.remove(elem);
-        notifyDataSetChanged();
-    }
-
-    public void remove(int index) {
-        data.remove(index);
-        notifyDataSetChanged();
-    }
-
-    public void replaceAll(List<T> elem) {
-        data.clear();
-        data.addAll(elem);
-        notifyDataSetChanged();
-    }
-
-    public boolean contains(T elem) {
-        return data.contains(elem);
-    }
-
-    public void clear() {
-        data.clear();
-        notifyDataSetChanged();
-    }
-
     /**
      * Implement this method and use the helper to adapt the view to the given
      * item.
@@ -155,7 +113,7 @@ public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends B
     protected abstract void convert(H helper, T item);
 
     /**
-     * You can override this method to use a custom BaseAdapterHelper in order
+     * You can override this method to use a custom BaseAdapterViewHolder in order
      * to fit your needs
      *
      * @param position    The position of the item within the adapter's data set of the
@@ -168,7 +126,7 @@ public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends B
      *                    that this View is always of the right type (see {@link #getViewTypeCount()} and
      *                    {@link #getItemViewType(int)} ).
      * @param parent      The parent that this view will eventually be attached to
-     * @return An instance of BaseAdapterHelper
+     * @return An instance of BaseAdapterViewHolder
      */
     protected abstract H getAdapterHelper(int position, View convertView, ViewGroup parent);
 

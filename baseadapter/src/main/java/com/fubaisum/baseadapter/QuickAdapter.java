@@ -24,12 +24,12 @@ import java.util.List;
 /**
  * Abstraction class of a BaseAdapter in which you only need to provide the
  * convert() implementation.<br/>
- * Using the provided BaseAdapterHelper, your code is minimalist.
+ * Using the provided BaseAdapterViewHolder, your code is minimalist.
  *
  * @param <T>
  *            The type of the items in the list.
  */
-public abstract class QuickAdapter<T> extends BaseQuickAdapter<T, BaseAdapterHelper> {
+public abstract class QuickAdapter<T> extends BaseQuickAdapter<T, BaseAdapterViewHolder> {
 
     public QuickAdapter(Context context, int layoutResId) {
         super(context, layoutResId);
@@ -43,12 +43,12 @@ public abstract class QuickAdapter<T> extends BaseQuickAdapter<T, BaseAdapterHel
         super(context, data, multiViewTypeSupport);
     }
 
-    protected BaseAdapterHelper getAdapterHelper(int position, View convertView, ViewGroup parent) {
+    protected BaseAdapterViewHolder getAdapterHelper(int position, View convertView, ViewGroup parent) {
         if (null != multiViewTypeSupport) {
             int layoutId = multiViewTypeSupport.getLayoutId(position, data.get(position));
-            return BaseAdapterHelper.get(context, convertView, parent, layoutId, position);
+            return BaseAdapterViewHolder.get(context, convertView, parent, layoutId, position);
         } else {
-            return BaseAdapterHelper.get(context, convertView, parent, layoutResId, position);
+            return BaseAdapterViewHolder.get(context, convertView, parent, layoutResId, position);
         }
     }
 
