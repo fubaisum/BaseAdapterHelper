@@ -28,13 +28,13 @@ public class BaseAdapterViewHolder {
 
     private final SparseArray<View> views;
     private int layoutId;
-    private View convertView;
     private int position;
+    private View convertView;
 
     protected BaseAdapterViewHolder(Context context, ViewGroup parent, int layoutId, int position) {
+        this.views = new SparseArray<View>();
         this.layoutId = layoutId;
         this.position = position;
-        this.views = new SparseArray<View>();
         convertView = LayoutInflater.from(context).inflate(layoutId, parent, false);
         convertView.setTag(this);
     }
